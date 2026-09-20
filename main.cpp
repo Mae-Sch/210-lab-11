@@ -6,8 +6,6 @@ using namespace std;
 // starting food array size
 const int NUM_FOODS = 3;
 
-enum Allergen { dairy = 1, eggs, gluten, nuts, soy };
-
 // Represents item of food in a grocery store
 // include names of item, price, and an array of common allergens
 struct Food {
@@ -29,6 +27,8 @@ struct Food {
 
 void inputFood(Food *);
 void displayFood(Food *);
+// returns name of allergen based on input number
+string allergenByNum(int);
 
 int main() {
     // list represents store stock
@@ -50,7 +50,6 @@ int main() {
 void inputFood(Food *fptr) {
     // statically stores how many foods are in the list total
     static int numFood = 1;
-    cout << "DEBUG: start funct: numfood is " << numFood << endl;
     cout << "Collecting data for food " << numFood << endl;
     cout << "Name: ";
     // collects input name and stores it in the name variable of the food
@@ -75,11 +74,10 @@ void inputFood(Food *fptr) {
             cout << "allergen #" << (i + 1) << ": ";
             cin >> fptr->allergenList[i];
         }
+    }
         cin.ignore();
         cout << endl << endl;
         numFood+= 1;
-        cout << "DEBUG: end funct: numfood is " << numFood << endl;
-    }
 }
 
 void displayFood(Food *fptr) {
@@ -88,11 +86,34 @@ void displayFood(Food *fptr) {
     if (fptr->numAllergens != 0) {
         cout << "Contains: ";
         for (int i = 0; i < fptr->numAllergens; ++i) {
-            cout << fptr->allergenList[i];
+            cout << allergenByNum(fptr->allergenList[i]);
             // adds comma and spaces to make output a proper list
             if (i < fptr->numAllergens - 1)
                 cout << ", ";
         }
-        cout << endl << endl;
+    }
+    cout << endl << endl;
+}
+
+string allergenByNum(int num) {
+    switch(num) {
+        case 1:
+            return "dairy";
+            break;
+        case 2:
+            return "eggs";
+            break;
+        case 3:
+            return "gluten";
+            break;
+        case 4:
+            return "nuts";
+            break;
+        case 5:
+            return "soy";
+            break;
+        default:
+            return "unknown";
+            break;
     }
 }
