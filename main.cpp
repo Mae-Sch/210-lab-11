@@ -6,14 +6,15 @@ using namespace std;
 // starting food array size
 const int NUM_FOODS = 3;
 
-enum Allergens { dairy = 1, eggs, gluten, nuts, soy };
+enum Allergen { dairy = 1, eggs, gluten, nuts, soy };
 
 // Represents item of food in a grocery store
 // include names of item, price, and an array of common allergens
 struct Food {
     string name;
     double price;
-    Allergens * allergenList;
+    // list of ints, 1 = dairy, 2 = eggs, 3 = gluten, 4 = nuts, 5 = soy
+    int * allergenList;
 
     // destructor to remove pointer
     ~Food() {
@@ -25,11 +26,11 @@ struct Food {
 };
 
 void inputFood(Food *);
-void displayFoos(Food *);
+void displayFood(Food *);
 
 int main() {
     // list represents store stock
-    //Food *stock = new Food[NUM_FOODS];
+    Food *stock = new Food[NUM_FOODS];
     for (int i = 0; i < NUM_FOODS; ++i) {
         inputFood(&stock[0]);
     }
@@ -58,8 +59,8 @@ void inputFood(Food *fptr) {
         << "3: gluten\n"
         << "4: nuts\n"
         << "5: soy\n"
-        << "enter the number which cooresponds to the allergen";
-        for (int i = 0; i < numAllergens ++i) {
+        << "enter the number which cooresponds to...\n";
+        for (int i = 0; i < numAllergens; ++i) {
             cout << "allergen #" << (i + 1) << ": ";
             cin >> fptr->allergenList[i];
         }
@@ -67,4 +68,9 @@ void inputFood(Food *fptr) {
         cout << endl << endl;
         numFood+= 1;
     }
+}
+
+void displayFood(Food *fptr) {
+    cout << "Food: " << fptr->name << endl;
+    cout << "Price $" << fptr->price << endl;
 }
