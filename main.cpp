@@ -14,6 +14,8 @@ struct Food {
     string name;
     double price;
     // list of ints, 1 = dairy, 2 = eggs, 3 = gluten, 4 = nuts, 5 = soy
+    // numAllergens stores the amount of allergens. Never displayed to user, just used for internal counters
+    int numAllergens;
     int * allergenList;
 
     // destructor to remove pointer
@@ -32,7 +34,14 @@ int main() {
     // list represents store stock
     Food *stock = new Food[NUM_FOODS];
     for (int i = 0; i < NUM_FOODS; ++i) {
-        inputFood(&stock[0]);
+        inputFood(&stock[i]);
+    }
+
+    cout << endl;
+
+    cout << "Store stock: \n\n";
+    for (int i = 0; i < NUM_FOODS; ++i) {
+        displayFood(&stock[i]);
     }
     
     return 0;
@@ -41,6 +50,7 @@ int main() {
 void inputFood(Food *fptr) {
     // statically stores how many foods are in the list total
     static int numFood = 1;
+    cout << "DEBUG: start funct: numfood is " << numFood << endl;
     cout << "Collecting data for food " << numFood << endl;
     cout << "Name: ";
     // collects input name and stores it in the name variable of the food
@@ -52,6 +62,7 @@ void inputFood(Food *fptr) {
     int numAllergens;
     cin >> numAllergens;
     fptr->allergenList = new int[numAllergens];
+    fptr->numAllergens = numAllergens;
     if (numAllergens != 0) {
         cout << "Key:\n"
         << "1: dairy\n"
@@ -67,10 +78,21 @@ void inputFood(Food *fptr) {
         cin.ignore();
         cout << endl << endl;
         numFood+= 1;
+        cout << "DEBUG: end funct: numfood is " << numFood << endl;
     }
 }
 
 void displayFood(Food *fptr) {
     cout << "Food: " << fptr->name << endl;
     cout << "Price $" << fptr->price << endl;
+    if (fptr->numAllergens != 0) {
+        cout << "Contains: ";
+        for (int i = 0; i < fptr->numAllergens; ++i) {
+            cout << fptr->allergenList[i];
+            // adds comma and spaces to make output a proper list
+            if (i < fptr->numAllergens - 1)
+                cout << ", ";
+        }
+        cout << endl << endl;
+    }
 }
