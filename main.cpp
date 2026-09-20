@@ -3,6 +3,9 @@
 
 using namespace std;
 
+// starting food array size
+const int NUM_FOODS = 3;
+
 enum Allergens { dairy = 1, eggs, gluten, nuts, soy };
 
 // Represents item of food in a grocery store
@@ -11,21 +14,31 @@ struct Food {
     string name;
     double price;
     Allergens * allergenList;
+
+    // destructor to remove pointer
+    ~Food() {
+        if (allergenList) {
+            delete [] allergenList;
+        }
+        allergenList = nullptr;
+    }
 };
 
 void inputFood(Food *);
 void displayFoos(Food *);
 
 int main() {
-    Food grocery;
-    Food *groceryPtr = &grocery;
-
-    inputFood(groceryPtr);
+    // list represents store stock
+    //Food *stock = new Food[NUM_FOODS];
+    for (int i = 0; i < NUM_FOODS; ++i) {
+        inputFood(&stock[0]);
+    }
     
     return 0;
 }
 
-void inputFood{Food * fptr} {
+void inputFood(Food *fptr) {
+    // statically stores how many foods are in the list total
     static int numFood = 1;
     cout << "Collecting data for food " << numFood << endl;
     cout << "Name: ";
@@ -37,7 +50,7 @@ void inputFood{Food * fptr} {
     cout << "The amount of allergens this food has is: ";
     int numAllergens;
     cin >> numAllergens;
-    fptr->grases = new int[numAllergens];
+    fptr->allergenList = new int[numAllergens];
     if (numAllergens != 0) {
         cout << "Key:\n"
         << "1: dairy\n"
